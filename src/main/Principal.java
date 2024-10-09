@@ -46,6 +46,7 @@ public class Principal extends JFrame {
         mnPersona.add(MnIAgregar);
 
         // Opción Modificar
+        // comment de prueba
         JMenuItem MnIModificar = new JMenuItem("Modificar");
         MnIModificar.setHorizontalAlignment(SwingConstants.LEFT);
         mnPersona.add(MnIModificar);
