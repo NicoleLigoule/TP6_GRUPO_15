@@ -11,20 +11,22 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class VentanaPrincipal extends JFrame {
+public class VentanaPrincipal{
 
     private JPanel contentPane;
+    private JFrame frmPrincipal;
 
     public VentanaPrincipal() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 450, 300);
+    	frmPrincipal = new JFrame();
+    	frmPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	frmPrincipal.setBounds(100, 100, 450, 300);
 
         contentPane = new JPanel();
         contentPane.setLayout(new BorderLayout(0, 0));
-        setContentPane(contentPane);
+        frmPrincipal.setContentPane(contentPane);
 
         JMenuBar menuBar = new JMenuBar();
-        setJMenuBar(menuBar);
+        frmPrincipal.setJMenuBar(menuBar);
 
         JMenu mnPersona = new JMenu("Persona");
         mnPersona.setHorizontalAlignment(SwingConstants.LEFT);
@@ -53,7 +55,8 @@ public class VentanaPrincipal extends JFrame {
         JMenuItem MnIListar = new JMenuItem("Listar");
         MnIListar.setHorizontalAlignment(SwingConstants.LEFT);
         mnPersona.add(MnIListar);
-
+        
+        frmPrincipal.setVisible(true);
     }
 
 }
