@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import entidad.Persona;
 import negocio.PersonaNegocio;
 import presentacion.vista.PanelEliminarPersonas;
+import presentacion.vista.PanelListarPersonas;
 import presentacion.vista.PanelModificarPersona;
 import presentacion.vista.VentanaPrincipal;
 import presentacion.vista.PanelAgregarPersonas;
@@ -20,6 +21,7 @@ public class Controlador implements ActionListener {
 	private PanelAgregarPersonas pnlIngresoPersonas;
 	private PanelEliminarPersonas pnlEliminarPersonas;
 	private PanelModificarPersona pnlModificarPersonas;
+	private PanelListarPersonas pnlListarPersonas;
 	private PersonaNegocio pNeg;
 	private ArrayList<Persona> personasEnTabla;
 	
@@ -34,6 +36,7 @@ public class Controlador implements ActionListener {
 		this.pnlIngresoPersonas = new PanelAgregarPersonas();
 		this.pnlEliminarPersonas = new PanelEliminarPersonas();
 		this.pnlModificarPersonas = new PanelModificarPersona();
+		this.pnlListarPersonas = new PanelListarPersonas();
 		
 		//Enlazo todos los eventos
 		
@@ -41,6 +44,7 @@ public class Controlador implements ActionListener {
 		this.ventanaPrincipal.getMenuAgregar().addActionListener(a->EventoClickMenu_AbrirPanel_AgregarPersona(a));
 		this.ventanaPrincipal.getMenuEliminar().addActionListener(a->EventoClickMenu_AbrirPanel_EliminarPersona(a));
 		this.ventanaPrincipal.getMenuModificar().addActionListener(a->EventoClickMenu_AbrirPanel_ModificarPersona(a));
+		this.ventanaPrincipal.getMenuListar().addActionListener(a->EventoClickMenu_AbrirPanel_ListarPersona(a));
 
 		//Eventos PanelAgregarPersonas
 		 this.pnlIngresoPersonas.getBtnAceptar().addActionListener(a->EventoClickBoton_AgregarPesona_PanelAgregarPersonas(a));
@@ -71,6 +75,15 @@ public class Controlador implements ActionListener {
 	}
 	
 	//EventoClickMenu abrir PanelModificarPersonas
+		public void EventoClickMenu_AbrirPanel_ListarPersona(ActionEvent a)
+		{		
+			ventanaPrincipal.getContentPane().removeAll();
+			ventanaPrincipal.getContentPane().add(pnlListarPersonas);
+			ventanaPrincipal.getContentPane().repaint();
+			ventanaPrincipal.getContentPane().revalidate();
+		}
+		
+		//EventoClickMenu abrir panelListarPersonas
 		public void EventoClickMenu_AbrirPanel_ModificarPersona(ActionEvent a)
 		{		
 			ventanaPrincipal.getContentPane().removeAll();
