@@ -74,7 +74,7 @@ public class Controlador implements ActionListener {
 		ventanaPrincipal.getContentPane().revalidate();
 	}
 	
-	//EventoClickMenu abrir PanelModificarPersonas
+	//EventoClickMenu abrir panelListarPersonas
 		public void EventoClickMenu_AbrirPanel_ListarPersona(ActionEvent a)
 		{		
 			ventanaPrincipal.getContentPane().removeAll();
@@ -83,7 +83,7 @@ public class Controlador implements ActionListener {
 			ventanaPrincipal.getContentPane().revalidate();
 		}
 		
-		//EventoClickMenu abrir panelListarPersonas
+		//EventoClickMenu abrir PanelModificarPersonas
 		public void EventoClickMenu_AbrirPanel_ModificarPersona(ActionEvent a)
 		{		
 			ventanaPrincipal.getContentPane().removeAll();
