@@ -11,6 +11,7 @@ public class PanelModificarPersona extends JPanel{
 	private JTextField Nombre;
 	private JTextField Apellido;
 	private JTextField DNI;
+	private JList list;
 	
 	public PanelModificarPersona() {
 		setLayout(null);
@@ -19,7 +20,7 @@ public class PanelModificarPersona extends JPanel{
 		lbltitulo.setBounds(15, 16, 333, 20);
 		add(lbltitulo);
 		
-		JList list = new JList();
+		list = new JList();
 		list.setBounds(15, 52, 382, 182);
 		add(list);
 		
@@ -42,5 +43,38 @@ public class PanelModificarPersona extends JPanel{
 		btnModificar.setBounds(303, 258, 90, 26);
 		add(btnModificar);
 
+		
+	}
+
+	public JTextField getNombre() {
+		return Nombre;
+	}
+
+	public void setNombre(JTextField nombre) {
+		Nombre = nombre;
+	}
+
+	public JTextField getApellido() {
+		return Apellido;
+	}
+
+	public void setApellido(JTextField apellido) {
+		Apellido = apellido;
+	}
+
+	public JTextField getDNI() {
+		return DNI;
+	}
+
+	public void setDNI(JTextField dNI) {
+		DNI = dNI;
+	}
+
+	public JList getList() {
+		return list;
+	}
+
+	public void setList(JList list) {
+		this.list = list;
 	}
 }
