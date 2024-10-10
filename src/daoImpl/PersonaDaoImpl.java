@@ -96,6 +96,6 @@ public class PersonaDaoImpl implements PersonaDao
 		String Dni = resultSet.getString("Dni");
 		String nombre = resultSet.getString("Nombre");
 		String Apell = resultSet.getString("Apellido");
-		return new Persona(Dni, nombre, Apell);
+		return new Persona(nombre, Apell, Dni);
 	}
 }

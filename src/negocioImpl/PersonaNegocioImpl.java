@@ -1,5 +1,6 @@
 package negocioImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import dao.PersonaDao;
 import daoImpl.PersonaDaoImpl;
@@ -31,8 +32,8 @@ public class PersonaNegocioImpl implements PersonaNegocio {
     }
 
     @Override
-    public List<Persona> readAll() {
+    public ArrayList<Persona> readAll() {
         // Implementación para leer todos
-        return null;
+        return (ArrayList<Persona>) personaDao.readAll();
     }
 }

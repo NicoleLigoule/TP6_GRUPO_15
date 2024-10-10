@@ -5,6 +5,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import entidad.Persona;
 import negocio.PersonaNegocio;
@@ -22,6 +26,7 @@ public class Controlador implements ActionListener {
 	private PanelModificarPersona pnlModificarPersonas;
 	private PersonaNegocio pNeg;
 	private ArrayList<Persona> personasEnTabla;
+	
 	
 	//Constructor
 	public Controlador(VentanaPrincipal vista, PersonaNegocio pNeg)
@@ -73,6 +78,43 @@ public class Controlador implements ActionListener {
 	//EventoClickMenu abrir PanelModificarPersonas
 		public void EventoClickMenu_AbrirPanel_ModificarPersona(ActionEvent a)
 		{		
+			personasEnTabla = pNeg.readAll();
+			
+			 // array con los datos de las personas para el JList
+		    String[] personasArray = new String[personasEnTabla.size()];
+		    for (int i = 0; i < personasEnTabla.size(); i++) {
+		        Persona persona = personasEnTabla.get(i);
+		        
+		        //Mostramos en Jlist
+		        personasArray[i] = persona.getApellido() +" " + persona.getDniPersona() +" " +persona.getNombre();
+		        
+		    }
+		    // Cargar los datos en el JList del panel pnlModificarPersonas
+		    pnlModificarPersonas.getList().setListData(personasArray);
+		    
+		    
+		 // Añadimos el listener  para actualizar los campos de texto
+		    pnlModificarPersonas.getList().addListSelectionListener(new ListSelectionListener() {
+		        @Override
+		        public void valueChanged(ListSelectionEvent e) {
+		            
+		            if (!e.getValueIsAdjusting()) {
+		                int selectedIndex = pnlModificarPersonas.getList().getSelectedIndex();
+		                if (selectedIndex != -1) {
+		                	
+		                    // Obtengo la persona seleccionada
+		                    Persona personaSeleccionada = personasEnTabla.get(selectedIndex);
+
+		                    //campos de texto con los datos de la persona
+		                    pnlModificarPersonas.getNombre().setText(personaSeleccionada.getApellido());
+		                    pnlModificarPersonas.getApellido().setText(personaSeleccionada.getDniPersona());
+		                    pnlModificarPersonas.getDNI().setText(personaSeleccionada.getNombre());
+		                }
+		            }
+		        }
+		    });
+		    
+		    
 			ventanaPrincipal.getContentPane().removeAll();
 			ventanaPrincipal.getContentPane().add(pnlModificarPersonas);
 			ventanaPrincipal.getContentPane().repaint();
