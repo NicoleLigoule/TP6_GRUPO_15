@@ -32,18 +32,18 @@ public class vistaAgregarPersona extends JPanel {
         add(lblDni);
 
         textNombre = new JTextField();
-        textNombre.setBounds(136, 63, 197, 26);
+        textNombre.setBounds(148, 63, 197, 26);
         add(textNombre);
         textNombre.setColumns(10);
 
         textApellido = new JTextField();
-        textApellido.setBounds(136, 122, 197, 26);
+        textApellido.setBounds(148, 122, 197, 26);
         add(textApellido);
         textApellido.setColumns(10);
 
         textDni = new JTextField();
         textDni.setColumns(10);
-        textDni.setBounds(136, 184, 197, 26);
+        textDni.setBounds(148, 184, 197, 26);
         add(textDni);
 
         JButton btnAceptar = new JButton("Aceptar");

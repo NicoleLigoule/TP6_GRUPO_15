@@ -65,6 +65,13 @@ public class VentanaPrincipal{
         MnIAgregar.setHorizontalAlignment(SwingConstants.LEFT);
         mnPersona.add(MnIAgregar);
 
+       
+        
+        frmPrincipal.setVisible(true);
+    
+        MnIAgregar.setHorizontalAlignment(SwingConstants.LEFT);
+        mnPersona.add(MnIAgregar);
+
         // Opción Modificar
         // comment de prueba
         JMenuItem MnIModificar = new JMenuItem("Modificar");
@@ -72,7 +79,22 @@ public class VentanaPrincipal{
         mnPersona.add(MnIModificar);
 
         // Opción Eliminar
+       // JMenuItem MnIEliminar1 = new JMenuItem("Eliminar");
+       // MnIEliminar1.setHorizontalAlignment(SwingConstants.LEFT);
+       // mnPersona.add(MnIEliminar1);
+        // Opción Eliminar
         JMenuItem MnIEliminar = new JMenuItem("Eliminar");
+        MnIEliminar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                contentPane.removeAll();
+
+                vistaEliminarPersona panelEliminar = new vistaEliminarPersona();
+                contentPane.add(panelEliminar, BorderLayout.CENTER);
+
+                contentPane.repaint();
+                contentPane.revalidate();
+            }
+        });
         MnIEliminar.setHorizontalAlignment(SwingConstants.LEFT);
         mnPersona.add(MnIEliminar);
 
