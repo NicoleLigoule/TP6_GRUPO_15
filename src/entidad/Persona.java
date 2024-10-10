@@ -1,7 +1,7 @@
 package entidad;
 
 public class Persona {
-	private int DniPersona;
+	private String DniPersona;
 	private String nombre;
 	private String apellido;
 
@@ -11,21 +11,18 @@ public class Persona {
 	}
 			
 			
-	public Persona(int DniPersona, String nombre, String apellido)
-	{
-		this.DniPersona = DniPersona;
-		this.nombre = nombre;
-		this.apellido = apellido;
+	public Persona(String DniPersona, String nombre, String apellido) {
+	    this.DniPersona = DniPersona;
+	    this.nombre = nombre;
+	    this.apellido = apellido;
 	}
 	
-	public int getDniPersona() 
-	{
-		return this.DniPersona;
+	public String getDniPersona() {
+	    return this.DniPersona;
 	}
 
-	public void setIdPersona(int DniPersona) 
-	{
-		this.DniPersona = DniPersona;
+	public void setDniPersona(String DniPersona) {
+	    this.DniPersona = DniPersona;
 	}
 
 	public String getNombre() 

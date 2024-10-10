@@ -1,109 +1,90 @@
 package presentacion.vista;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-
+import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import java.awt.Color;
+import javax.swing.JLabel;
 
+public class VentanaPrincipal extends JFrame {
 
+	private JMenuBar menuBar;
+	private JMenu mnPersonas;
+	private JMenuItem menuEliminar;
+	private JMenuItem menuAgregar;
+	private JMenuItem menuModificar;
+	private JMenuItem menuListar;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+	
+	public VentanaPrincipal() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 783, 494);
+		
+		menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		mnPersonas = new JMenu("Personas");
+		menuBar.add(mnPersonas);
+		
+		menuAgregar = new JMenuItem("Agregar");
+		mnPersonas.add(menuAgregar);
+		
+		menuModificar = new JMenuItem("Modificar");
+		mnPersonas.add(menuModificar);
+		
+		menuEliminar = new JMenuItem("Eliminar");
+		mnPersonas.add(menuEliminar);
+		
+		menuListar = new JMenuItem("Listar");
+		mnPersonas.add(menuListar);
+		
+		
+	}
 
+	public JMenu getMnPersonas() {
+		return mnPersonas;
+	}
 
-public class VentanaPrincipal{
+	public void setMnPersonas(JMenu mnPersonas) {
+		this.mnPersonas = mnPersonas;
+	}
 
-    private JPanel contentPane;
-    private JFrame frmPrincipal;
-    
-    
+	public JMenuItem getMenuEliminar() {
+		return menuEliminar;
+	}
 
-    public VentanaPrincipal() {
-    	frmPrincipal = new JFrame();
-    	frmPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	frmPrincipal.setBounds(100, 100, 450, 500);
+	public void setMenuEliminar(JMenuItem menuEliminar) {
+		this.menuEliminar = menuEliminar;
+	}
 
-        contentPane = new JPanel();
-        contentPane.setLayout(new BorderLayout(0, 0));
-        frmPrincipal.setContentPane(contentPane);
+	public JMenuItem getMenuAgregar() {
+		return menuAgregar;
+	}
 
-        JMenuBar menuBar = new JMenuBar();
-        frmPrincipal.setJMenuBar(menuBar);
+	public void setMenuAgregar(JMenuItem menuAgregar) {
+		this.menuAgregar = menuAgregar;
+	}
 
-        JMenu mnPersona = new JMenu("Persona");
-        mnPersona.setHorizontalAlignment(SwingConstants.LEFT);
-        mnPersona.setBackground(Color.WHITE);
-        mnPersona.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        mnPersona.setForeground(Color.BLACK);
-        menuBar.add(mnPersona);
+	public JMenuItem getMenuModificar() {
+		return menuModificar;
+	}
 
-        // Opción Agregar
-        JMenuItem MnIAgregar = new JMenuItem("Agregar");        
-        MnIAgregar.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent arg0) {
-        		
-        		contentPane.removeAll();
+	public void setMenuModificar(JMenuItem menuModificar) {
+		this.menuModificar = menuModificar;
+	}
 
-                
-        		vistaAgregarPersona panel = new vistaAgregarPersona();
-                //panel.setDefaultListModel(listModel); 
-                
-                contentPane.add(panel, BorderLayout.CENTER);
+	public JMenuItem getMenuListar() {
+		return menuListar;
+	}
 
-                
-                contentPane.repaint();
-                contentPane.revalidate();
-        	}
-        });
-        MnIAgregar.setHorizontalAlignment(SwingConstants.LEFT);
-        mnPersona.add(MnIAgregar);
-
-       
-        
-        frmPrincipal.setVisible(true);
-    
-        MnIAgregar.setHorizontalAlignment(SwingConstants.LEFT);
-        mnPersona.add(MnIAgregar);
-
-        // Opción Modificar
-        // comment de prueba
-        JMenuItem MnIModificar = new JMenuItem("Modificar");
-        MnIModificar.setHorizontalAlignment(SwingConstants.LEFT);
-        mnPersona.add(MnIModificar);
-
-        // Opción Eliminar
-       // JMenuItem MnIEliminar1 = new JMenuItem("Eliminar");
-       // MnIEliminar1.setHorizontalAlignment(SwingConstants.LEFT);
-       // mnPersona.add(MnIEliminar1);
-        // Opción Eliminar
-        JMenuItem MnIEliminar = new JMenuItem("Eliminar");
-        MnIEliminar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                contentPane.removeAll();
-
-                vistaEliminarPersona panelEliminar = new vistaEliminarPersona();
-                contentPane.add(panelEliminar, BorderLayout.CENTER);
-
-                contentPane.repaint();
-                contentPane.revalidate();
-            }
-        });
-        MnIEliminar.setHorizontalAlignment(SwingConstants.LEFT);
-        mnPersona.add(MnIEliminar);
-
-        // Opción Listar
-        JMenuItem MnIListar = new JMenuItem("Listar");
-        MnIListar.setHorizontalAlignment(SwingConstants.LEFT);
-        mnPersona.add(MnIListar);
-        
-        frmPrincipal.setVisible(true);
-    }
-
+	public void setMenuListar(JMenuItem menuListar) {
+		this.menuListar = menuListar;
+	}
+	
 }
