@@ -54,10 +54,13 @@ public class Controlador implements ActionListener {
 		//Eventos PanelAgregarPersonas
 		 this.pnlIngresoPersonas.getBtnAceptar().addActionListener(a->EventoClickBoton_AgregarPesona_PanelAgregarPersonas(a));
 		
-		 
+		 pnlModificarPersonas.getBtnModificar().addActionListener(this::EventoClickBoton_ModificarPersona);
+
 			
 		//Eventos PanelEliminarPersonas
 		 this.pnlEliminarPersonas.getBtnEliminar().addActionListener(s->EventoClickBoton_BorrarPesona_PanelEliminarPersonas(s));
+		 
+		 this.pnlModificarPersonas.getBtnModificar().addActionListener(a -> EventoClickMenu_AbrirPanel_ModificarPersona(a));
 		 
 		}
 	
@@ -99,8 +102,7 @@ public class Controlador implements ActionListener {
 		        Persona persona = personasEnTabla.get(i);
 		        
 		        //Mostramos en Jlist
-		        personasArray[i] = persona.getApellido() +" " + persona.getDniPersona() +" " +persona.getNombre();
-		        
+		        personasArray[i] = persona.getDniPersona() +" " + persona.getNombre() +" " +persona.getApellido();
 		    }
 		    // Cargar los datos en el JList del panel pnlModificarPersonas
 		    pnlModificarPersonas.getList().setListData(personasArray);
@@ -119,9 +121,10 @@ public class Controlador implements ActionListener {
 		                    Persona personaSeleccionada = personasEnTabla.get(selectedIndex);
 
 		                    //campos de texto con los datos de la persona
-		                    pnlModificarPersonas.getNombre().setText(personaSeleccionada.getApellido());
-		                    pnlModificarPersonas.getApellido().setText(personaSeleccionada.getDniPersona());
-		                    pnlModificarPersonas.getDNI().setText(personaSeleccionada.getNombre());
+		                    pnlModificarPersonas.getDNI().setText(personaSeleccionada.getDniPersona());
+		                    pnlModificarPersonas.getNombre().setText(personaSeleccionada.getNombre());
+		                    pnlModificarPersonas.getApellido().setText(personaSeleccionada.getApellido());
+		                    
 		                }
 		            }
 		        }
@@ -134,12 +137,32 @@ public class Controlador implements ActionListener {
 			ventanaPrincipal.getContentPane().revalidate();
 		}
 
+		
+		private void EventoClickBoton_ModificarPersona(ActionEvent a) {
+		    String nombre = pnlModificarPersonas.getNombre().getText();
+		    String apellido = pnlModificarPersonas.getApellido().getText();
+		    String dni = pnlModificarPersonas.getDNI().getText();
+
+		    Persona personaModificada = new Persona(dni,nombre,apellido);
+		    
+		    boolean estado = pNeg.modificar(personaModificada);
+		    String mensaje;
+		    if (estado) {
+		        mensaje = "Persona modificada con éxito";
+		    } else {
+		        mensaje = "Error al modificar la persona";
+		    }
+		    
+		    pnlModificarPersonas.mostrarMensaje(mensaje);
+		}
+		
 	//EventoClickBoton agregar persona en PanelAgregarPersonas
 	private void EventoClickBoton_AgregarPesona_PanelAgregarPersonas(ActionEvent a) {
 		
+		String dni = this.pnlIngresoPersonas.getTxtDni().getText();
 		String nombre = this.pnlIngresoPersonas.getTxtNombre().getText();
 		String apellido = this.pnlIngresoPersonas.getTxtApellido().getText();
-		String dni = this.pnlIngresoPersonas.getTxtDni().getText();
+	
 		Persona nuevaPersona = new Persona(nombre, apellido, dni);
 		
 		boolean estado = pNeg.insert(nuevaPersona);
@@ -147,9 +170,10 @@ public class Controlador implements ActionListener {
 		if(estado==true)
 		{
 			mensaje="Persona agregada con exito";
+			this.pnlIngresoPersonas.getTxtDni().setText("");
 			this.pnlIngresoPersonas.getTxtNombre().setText("");
 			this.pnlIngresoPersonas.getTxtApellido().setText("");
-			this.pnlIngresoPersonas.getTxtDni().setText("");
+			
 		}
 		else
 			mensaje="Persona no agregada, complete todos los campos";

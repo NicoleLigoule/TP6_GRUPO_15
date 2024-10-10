@@ -3,11 +3,12 @@ package presentacion.vista;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class PanelModificarPersona extends JPanel{
-
+	  private JButton btnModificar;
 	private JTextField Nombre;
 	private JTextField Apellido;
 	private JTextField DNI;
@@ -39,12 +40,27 @@ public class PanelModificarPersona extends JPanel{
 		DNI.setBounds(198, 258, 90, 26);
 		add(DNI);
 		
-		JButton btnModificar= new JButton("Modificar");
+		
+		btnModificar = new JButton("Modificar");
 		btnModificar.setBounds(303, 258, 90, 26);
-		add(btnModificar);
+        add(btnModificar);
+        
 
 		
+		
 	}
+	
+	public JButton getBtnModificar() {
+		return btnModificar;
+	}
+
+	public void setBtnModificar(JButton btnModificar) {
+		this.btnModificar = btnModificar;
+	}
+
+	public void mostrarMensaje(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje);
+    }
 
 	public JTextField getNombre() {
 		return Nombre;
