@@ -52,9 +52,37 @@ public class Controlador implements ActionListener {
 
 		//Eventos PanelAgregarPersonas
 		 this.pnlIngresoPersonas.getBtnAceptar().addActionListener(a->EventoClickBoton_AgregarPesona_PanelAgregarPersonas(a));
+		 this.pnlIngresoPersonas.getTxtApellido().addKeyListener(new java.awt.event.KeyAdapter() {
+			    public void keyTyped(java.awt.event.KeyEvent evt) {
+			        char c = evt.getKeyChar();
+			        if (!Character.isLetter(c) && !Character.isWhitespace(c)) {
+			            evt.consume();
+			        }
+			    }
+			});
+		 
+		 this.pnlIngresoPersonas.getTxtNombre().addKeyListener(new java.awt.event.KeyAdapter() {
+			    public void keyTyped(java.awt.event.KeyEvent evt) {
+			        char c = evt.getKeyChar();
+			        if (!Character.isLetter(c) && !Character.isWhitespace(c)) {
+			            evt.consume();
+			        }
+			    }
+			});
 		
+
+		 this.pnlIngresoPersonas.getTxtDni().addKeyListener(new java.awt.event.KeyAdapter() {
+			    public void keyTyped(java.awt.event.KeyEvent evt) {
+			        char c = evt.getKeyChar();
+			        if (!Character.isDigit(c)) {
+			            evt.consume();
+			        }
+			    }
+			});
+
 		//Eventos PanelEliminarPersonas
 		 this.pnlModificarPersonas.getBtnModificar().addActionListener(this::EventoClickBoton_ModificarPersona);
+
 
 			
 		//Eventos PanelEliminarPersonas
@@ -119,55 +147,56 @@ public class Controlador implements ActionListener {
 		ventanaPrincipal.getContentPane().repaint();
 		ventanaPrincipal.getContentPane().revalidate();
 	}*/
-					
-		//EventoClickMenu abrir PanelModificarPersonas
-		public void EventoClickMenu_AbrirPanel_ModificarPersona(ActionEvent a)
-		{		
-			personasEnTabla = pNeg.readAll();
-			
-			 // array con los datos de las personas para el JList
-		    String[] personasArray = new String[personasEnTabla.size()];
-		    for (int i = 0; i < personasEnTabla.size(); i++) {
-		        Persona persona = personasEnTabla.get(i);
-		        
-		        //Mostramos en Jlist
-		        personasArray[i] = persona.getNombre() +" " +persona.getApellido() +" " +persona.getDniPersona();
+	
+	//EventoClickMenu abrir PanelModificarPersonas
+	public void EventoClickMenu_AbrirPanel_ModificarPersona(ActionEvent a)
+	{		
+		personasEnTabla = pNeg.readAll();
+		
+		 // array con los datos de las personas para el JList
+	    String[] personasArray = new String[personasEnTabla.size()];
+	    for (int i = 0; i < personasEnTabla.size(); i++) {
+	        Persona persona = personasEnTabla.get(i);
+	        
+	        //Mostramos en Jlist
+	        personasArray[i] = persona.getDniPersona() +" " + persona.getNombre() +" " +persona.getApellido();
+	    }
+	    // Cargar los datos en el JList del panel pnlModificarPersonas
+	    pnlModificarPersonas.getList().setListData(personasArray);
+	    
+	    
+	 // AÃ±adimos el listener  para actualizar los campos de texto
+	    pnlModificarPersonas.getList().addListSelectionListener(new ListSelectionListener() {
+	        @Override
+	        public void valueChanged(ListSelectionEvent e) {
+	            
+	            if (!e.getValueIsAdjusting()) {
+	                int selectedIndex = pnlModificarPersonas.getList().getSelectedIndex();
+	                if (selectedIndex != -1) {
+	                	
+	                    // Obtengo la persona seleccionada
+	                    Persona personaSeleccionada = personasEnTabla.get(selectedIndex);
 
-		    }
-		    // Cargar los datos en el JList del panel pnlModificarPersonas
-		    pnlModificarPersonas.getList().setListData(personasArray);
-		    
-		    
-		 // Añadimos el listener  para actualizar los campos de texto
-		    pnlModificarPersonas.getList().addListSelectionListener(new ListSelectionListener() {
-		        @Override
-		        public void valueChanged(ListSelectionEvent e) {
-		            
-		            if (!e.getValueIsAdjusting()) {
-		                int selectedIndex = pnlModificarPersonas.getList().getSelectedIndex();
-		                if (selectedIndex != -1) {
-		                	
-		                    // Obtengo la persona seleccionada
-		                    Persona personaSeleccionada = personasEnTabla.get(selectedIndex);
+	                    //campos de texto con los datos de la persona
+	                    pnlModificarPersonas.getDNI().setText(personaSeleccionada.getDniPersona());
+	                    pnlModificarPersonas.getNombre().setText(personaSeleccionada.getNombre());
+	                    pnlModificarPersonas.getApellido().setText(personaSeleccionada.getApellido());
+	                    
+	                }
+	            }
+	        }
+	    });
+	    
+	    
+		ventanaPrincipal.getContentPane().removeAll();
+		ventanaPrincipal.getContentPane().add(pnlModificarPersonas);
+		ventanaPrincipal.getContentPane().repaint();
+		ventanaPrincipal.getContentPane().revalidate();
+	}
 
-		                    //campos de texto con los datos de la persona
-		                    pnlModificarPersonas.getDNI().setText(personaSeleccionada.getDniPersona());
-		                    pnlModificarPersonas.getNombre().setText(personaSeleccionada.getNombre());
-		                    pnlModificarPersonas.getApellido().setText(personaSeleccionada.getApellido());
-		                    
-		                }
-		            }
-		        }
-		    });
-		    
-		    
-			ventanaPrincipal.getContentPane().removeAll();
-			ventanaPrincipal.getContentPane().add(pnlModificarPersonas);
-			ventanaPrincipal.getContentPane().repaint();
-			ventanaPrincipal.getContentPane().revalidate();
-		}
+		
+	private void EventoClickBoton_ModificarPersona(ActionEvent a) {
 
-		private void EventoClickBoton_ModificarPersona(ActionEvent a) {
 		    String nombre = pnlModificarPersonas.getNombre().getText();
 		    String apellido = pnlModificarPersonas.getApellido().getText();
 		    String dni = pnlModificarPersonas.getDNI().getText();
@@ -178,13 +207,13 @@ public class Controlador implements ActionListener {
 		    boolean estado = pNeg.modificar(personaModificada);
 		    String mensaje;
 		    if (estado) {
-		        mensaje = "Persona modificada con éxito";
+		        mensaje = "Persona modificada con Ã©xito";
 		    } else {
 		        mensaje = "Error al modificar la persona";
 		    }
 		    
 
-		    // Mostrar mensaje de éxito o error
+		    // Mostrar mensaje de Ã©xito o error
 		    pnlModificarPersonas.mostrarMensaje(mensaje);
 
 		    // Actualizar la lista de personas
@@ -263,7 +292,7 @@ public class Controlador implements ActionListener {
 	        boolean estado = pNeg.delete(persona);
 	        String mensaje;
 	        if (estado) {
-	            mensaje = "Persona eliminada con éxito";
+	            mensaje = "Persona eliminada con Ã©xito";
 	        } else {
 	            mensaje = "ID inexistente";
 	        }
