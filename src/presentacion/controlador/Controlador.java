@@ -4,12 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import entidad.Persona;
 import negocio.PersonaNegocio;
@@ -73,6 +70,7 @@ public class Controlador implements ActionListener {
 			    }
 			});
 		
+
 		 this.pnlIngresoPersonas.getTxtDni().addKeyListener(new java.awt.event.KeyAdapter() {
 			    public void keyTyped(java.awt.event.KeyEvent evt) {
 			        char c = evt.getKeyChar();
@@ -82,7 +80,9 @@ public class Controlador implements ActionListener {
 			    }
 			});
 
-		 pnlModificarPersonas.getBtnModificar().addActionListener(this::EventoClickBoton_ModificarPersona);
+		//Eventos PanelEliminarPersonas
+		 this.pnlModificarPersonas.getBtnModificar().addActionListener(this::EventoClickBoton_ModificarPersona);
+
 
 			
 		//Eventos PanelEliminarPersonas
@@ -104,6 +104,20 @@ public class Controlador implements ActionListener {
 	//EventoClickMenu abrir PanelEliminarPersonas
 	public void EventoClickMenu_AbrirPanel_EliminarPersona(ActionEvent a)
 	{		
+		personasEnTabla = pNeg.readAll();
+		
+		 // array con los datos de las personas para el JList
+	    String[] personasArray = new String[personasEnTabla.size()];
+	    for (int i = 0; i < personasEnTabla.size(); i++) {
+	        Persona persona = personasEnTabla.get(i);
+	        
+	        //Mostramos en Jlist
+	        personasArray[i] = persona.getNombre() +" " +persona.getApellido() +" " +persona.getDniPersona();
+
+	    }
+	    // Cargar los datos en el JList del panel pnlModificarPersonas
+	    pnlEliminarPersonas.getListaPersonas().setListData(personasArray);
+	    
 		ventanaPrincipal.getContentPane().removeAll();
 		ventanaPrincipal.getContentPane().add(pnlEliminarPersonas);
 		ventanaPrincipal.getContentPane().repaint();
@@ -116,8 +130,10 @@ public class Controlador implements ActionListener {
 		personasEnTabla = pNeg.readAll();
 		modelPersonas = (DefaultTableModel) pnlListarPersonas.getTablaPersonas().getModel();
 	    modelPersonas.setRowCount(0);
+	}
 		
-		for(Persona p : personasEnTabla) {
+		//EventoClickMenu abrir PANEL MODIFICAR
+		/*for(Persona p : personasEnTabla) {
 			Object[] fila = new Object[3];
 			fila[0] = p.getNombre();
 			fila[1] = p.getApellido();
@@ -130,8 +146,8 @@ public class Controlador implements ActionListener {
 		ventanaPrincipal.getContentPane().add(pnlListarPersonas);
 		ventanaPrincipal.getContentPane().repaint();
 		ventanaPrincipal.getContentPane().revalidate();
-	}
-					
+	}*/
+	
 	//EventoClickMenu abrir PanelModificarPersonas
 	public void EventoClickMenu_AbrirPanel_ModificarPersona(ActionEvent a)
 	{		
@@ -149,7 +165,7 @@ public class Controlador implements ActionListener {
 	    pnlModificarPersonas.getList().setListData(personasArray);
 	    
 	    
-	 // Añadimos el listener  para actualizar los campos de texto
+	 // AÃ±adimos el listener  para actualizar los campos de texto
 	    pnlModificarPersonas.getList().addListSelectionListener(new ListSelectionListener() {
 	        @Override
 	        public void valueChanged(ListSelectionEvent e) {
@@ -180,31 +196,55 @@ public class Controlador implements ActionListener {
 
 		
 	private void EventoClickBoton_ModificarPersona(ActionEvent a) {
+
 		    String nombre = pnlModificarPersonas.getNombre().getText();
 		    String apellido = pnlModificarPersonas.getApellido().getText();
 		    String dni = pnlModificarPersonas.getDNI().getText();
 
-		    Persona personaModificada = new Persona(dni,nombre,apellido);
+		    Persona personaModificada = new Persona(nombre, apellido, dni);
+
 		    
 		    boolean estado = pNeg.modificar(personaModificada);
 		    String mensaje;
 		    if (estado) {
-		        mensaje = "Persona modificada con éxito";
+		        mensaje = "Persona modificada con Ã©xito";
 		    } else {
 		        mensaje = "Error al modificar la persona";
 		    }
 		    
+
+		    // Mostrar mensaje de Ã©xito o error
 		    pnlModificarPersonas.mostrarMensaje(mensaje);
+
+		    // Actualizar la lista de personas
+		    actualizarListaPersonas();
 		}
-		
+
+		// Metodo para actualizar la lista de personas en el JList
+		private void actualizarListaPersonas() {
+		    personasEnTabla = pNeg.readAll(); // Leer nuevamente las personas desde la base de datos
+
+		    // array con los datos de las personas para el JList
+		    String[] personasArray = new String[personasEnTabla.size()];
+		    for (int i = 0; i < personasEnTabla.size(); i++) {
+		        Persona persona = personasEnTabla.get(i);
+		        //Mostramos en Jlist
+		    
+		        personasArray[i] = persona.getNombre() +" " +persona.getApellido() +" " +persona.getDniPersona();
+		    }
+
+		    // Cargar los datos en el JList del panel pnlModificarPersonas
+		    pnlModificarPersonas.getList().setListData(personasArray);
+		}
+
 	//EventoClickBoton agregar persona en PanelAgregarPersonas
 	private void EventoClickBoton_AgregarPesona_PanelAgregarPersonas(ActionEvent a) {
 		
 		String dni = this.pnlIngresoPersonas.getTxtDni().getText();
 		String nombre = this.pnlIngresoPersonas.getTxtNombre().getText();
 		String apellido = this.pnlIngresoPersonas.getTxtApellido().getText();
-	
-		Persona nuevaPersona = new Persona(nombre, apellido, dni);
+		Persona nuevaPersona = new Persona(dni, nombre, apellido);
+
 		
 		boolean estado = pNeg.insert(nuevaPersona);
 		String mensaje;
@@ -223,37 +263,49 @@ public class Controlador implements ActionListener {
 	
 	}
 
-	
-	
+
+	private void actualizarListaPersonasEliminar() {
+	    personasEnTabla = pNeg.readAll(); // Leer nuevamente las personas desde la base de datos
+	    
+	    // array con los datos de las personas para el JList
+	    String[] personasArray = new String[personasEnTabla.size()];
+	    for (int i = 0; i < personasEnTabla.size(); i++) {
+	        Persona persona = personasEnTabla.get(i);
+	        personasArray[i] = persona.getNombre() + " " + persona.getApellido() + " " + persona.getDniPersona();
+	    }
+	    
+	    // Cargar los datos en el JList del panel pnlEliminarPersonas
+	    pnlEliminarPersonas.getListaPersonas().setListData(personasArray);
+	}
 	
 	//EventoClickBoton borrar persona en PanelEliminarPersonas
-	public void EventoClickBoton_BorrarPesona_PanelEliminarPersonas(ActionEvent s) {
-	    // Obtener el elemento seleccionado de la lista
+	public void EventoClickBoton_BorrarPesona_PanelEliminarPersonas(ActionEvent s) {  
 	    String personaSeleccionada = this.pnlEliminarPersonas.getListaPersonas().getSelectedValue();
-	    
-	    if (personaSeleccionada != null) { // Verifica que hay una selección
-	        // Extraer el ID de la persona seleccionada
-	        String[] partes = personaSeleccionada.split(" "); // Suponiendo que el formato es "Nombre Apellido (DNI)"
-	        String dni = partes[partes.length - 1].replace("(", "").replace(")", ""); // Obtiene el DNI sin paréntesis
+	   
+	    if (personaSeleccionada != null) {
+	        String[] partes = personaSeleccionada.split(" ");
+	        String dni = partes[partes.length - 1];
 
 	        Persona persona = new Persona();
-	        persona.setDniPersona(dni); // Asegúrate de que setIdPersona acepte el tipo de dato correcto
+	        persona.setDniPersona(dni);
 	        
 	        boolean estado = pNeg.delete(persona);
 	        String mensaje;
 	        if (estado) {
-	            mensaje = "Persona eliminada con éxito";
+	            mensaje = "Persona eliminada con Ã©xito";
 	        } else {
 	            mensaje = "ID inexistente";
 	        }
 
-	        // Limpiar la selección
+	        // Limpiar la seleccion
 	        this.pnlEliminarPersonas.getListaPersonas().clearSelection();
 	        this.pnlEliminarPersonas.mostrarMensaje(mensaje);
 	    } else {
 	        this.pnlEliminarPersonas.mostrarMensaje("Seleccione una persona para eliminar");
 	    }
+	    actualizarListaPersonasEliminar();
 	}
+	
 
 		
 

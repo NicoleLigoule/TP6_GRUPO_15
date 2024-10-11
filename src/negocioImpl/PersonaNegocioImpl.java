@@ -23,10 +23,10 @@ public class PersonaNegocioImpl implements PersonaNegocio {
     public boolean modificar(Persona persona_modificar) {
         return personaDao.modificar(persona_modificar);
     }
+
     @Override
     public boolean delete(Persona persona_a_eliminar) {
-        // Implementación de eliminación aquí
-        return false;
+        return personaDao.delete(persona_a_eliminar);
     }
 
     @Override

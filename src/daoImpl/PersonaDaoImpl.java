@@ -18,7 +18,6 @@ public class PersonaDaoImpl implements PersonaDao
 	private static final String readall = "SELECT * FROM personas";
 	private static final String update = "UPDATE Personas SET Nombre = ?, Apellido = ? WHERE Dni = ?";
 
-		
 	public boolean insert(Persona persona)
 	{
 		PreparedStatement statement;
@@ -122,8 +121,9 @@ public class PersonaDaoImpl implements PersonaDao
 	private Persona getPersona(ResultSet resultSet) throws SQLException
 	{
 		String Dni = resultSet.getString("Dni");
-		String Nombre = resultSet.getString("Nombre");
-		String Apellido = resultSet.getString("Apellido");
-		return new Persona(Dni, Nombre, Apellido);
+		String nombre = resultSet.getString("Nombre");
+		String Apell = resultSet.getString("Apellido");
+		return new Persona(Dni, nombre, Apell);
+
 	}
 }
