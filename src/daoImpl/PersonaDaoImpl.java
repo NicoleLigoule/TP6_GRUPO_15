@@ -122,8 +122,8 @@ public class PersonaDaoImpl implements PersonaDao
 	private Persona getPersona(ResultSet resultSet) throws SQLException
 	{
 		String Dni = resultSet.getString("Dni");
-		String nombre = resultSet.getString("Nombre");
-		String Apell = resultSet.getString("Apellido");
-		return new Persona(nombre, Apell, Dni);
+		String Nombre = resultSet.getString("Nombre");
+		String Apellido = resultSet.getString("Apellido");
+		return new Persona(Dni, Nombre, Apellido);
 	}
 }
