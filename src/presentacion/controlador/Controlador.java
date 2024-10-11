@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
@@ -28,6 +29,7 @@ public class Controlador implements ActionListener {
 	private PanelListarPersonas pnlListarPersonas;
 	private PersonaNegocio pNeg;
 	private ArrayList<Persona> personasEnTabla;
+	private DefaultTableModel modelPersonas;
 	
 	
 	//Constructor
@@ -83,14 +85,27 @@ public class Controlador implements ActionListener {
 	}
 	
 	//EventoClickMenu abrir panelListarPersonas
-		public void EventoClickMenu_AbrirPanel_ListarPersona(ActionEvent a)
-		{		
-			ventanaPrincipal.getContentPane().removeAll();
-			ventanaPrincipal.getContentPane().add(pnlListarPersonas);
-			ventanaPrincipal.getContentPane().repaint();
-			ventanaPrincipal.getContentPane().revalidate();
-		}
+	public void EventoClickMenu_AbrirPanel_ListarPersona(ActionEvent a)
+	{	
+		personasEnTabla = pNeg.readAll();
+		modelPersonas = (DefaultTableModel) pnlListarPersonas.getTablaPersonas().getModel();
+	    modelPersonas.setRowCount(0);
 		
+		for(Persona p : personasEnTabla) {
+			Object[] fila = new Object[3];
+			fila[0] = p.getNombre();
+			fila[1] = p.getApellido();
+			fila[2] = p.getDniPersona();
+			modelPersonas.addRow(fila);
+		}
+		pnlListarPersonas.getTablaPersonas().setModel(modelPersonas);
+	
+		ventanaPrincipal.getContentPane().removeAll();
+		ventanaPrincipal.getContentPane().add(pnlListarPersonas);
+		ventanaPrincipal.getContentPane().repaint();
+		ventanaPrincipal.getContentPane().revalidate();
+	}
+					
 		//EventoClickMenu abrir PanelModificarPersonas
 		public void EventoClickMenu_AbrirPanel_ModificarPersona(ActionEvent a)
 		{		
