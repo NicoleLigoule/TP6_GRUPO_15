@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import entidad.Persona;
 import negocio.PersonaNegocio;
@@ -25,6 +26,7 @@ public class Controlador implements ActionListener {
 	private PanelListarPersonas pnlListarPersonas;
 	private PersonaNegocio pNeg;
 	private ArrayList<Persona> personasEnTabla;
+	private DefaultTableModel modelPersonas;
 	
 	
 	//Constructor
@@ -53,9 +55,12 @@ public class Controlador implements ActionListener {
 		
 		//Eventos PanelEliminarPersonas
 		 this.pnlModificarPersonas.getBtnModificar().addActionListener(this::EventoClickBoton_ModificarPersona);
+
 			
 		//Eventos PanelEliminarPersonas
 		 this.pnlEliminarPersonas.getBtnEliminar().addActionListener(s->EventoClickBoton_BorrarPesona_PanelEliminarPersonas(s));
+		 
+		 this.pnlModificarPersonas.getBtnModificar().addActionListener(a -> EventoClickMenu_AbrirPanel_ModificarPersona(a));
 		 
 		}
 	
@@ -78,15 +83,30 @@ public class Controlador implements ActionListener {
 	}
 	
 	//EventoClickMenu abrir panelListarPersonas
-		public void EventoClickMenu_AbrirPanel_ListarPersona(ActionEvent a)
-		{		
-			ventanaPrincipal.getContentPane().removeAll();
-			ventanaPrincipal.getContentPane().add(pnlListarPersonas);
-			ventanaPrincipal.getContentPane().repaint();
-			ventanaPrincipal.getContentPane().revalidate();
-		}
+	public void EventoClickMenu_AbrirPanel_ListarPersona(ActionEvent a)
+	{	
+		personasEnTabla = pNeg.readAll();
+		modelPersonas = (DefaultTableModel) pnlListarPersonas.getTablaPersonas().getModel();
+	    modelPersonas.setRowCount(0);
+	}
 		
 		//EventoClickMenu abrir PANEL MODIFICAR
+		/*for(Persona p : personasEnTabla) {
+			Object[] fila = new Object[3];
+			fila[0] = p.getNombre();
+			fila[1] = p.getApellido();
+			fila[2] = p.getDniPersona();
+			modelPersonas.addRow(fila);
+		}
+		pnlListarPersonas.getTablaPersonas().setModel(modelPersonas);
+	
+		ventanaPrincipal.getContentPane().removeAll();
+		ventanaPrincipal.getContentPane().add(pnlListarPersonas);
+		ventanaPrincipal.getContentPane().repaint();
+		ventanaPrincipal.getContentPane().revalidate();
+	}*/
+					
+		//EventoClickMenu abrir PanelModificarPersonas
 		public void EventoClickMenu_AbrirPanel_ModificarPersona(ActionEvent a)
 		{		
 			personasEnTabla = pNeg.readAll();
@@ -98,6 +118,7 @@ public class Controlador implements ActionListener {
 		        
 		        //Mostramos en Jlist
 		        personasArray[i] = persona.getNombre() +" " +persona.getApellido() +" " +persona.getDniPersona();
+
 		    }
 		    // Cargar los datos en el JList del panel pnlModificarPersonas
 		    pnlModificarPersonas.getList().setListData(personasArray);
@@ -138,6 +159,7 @@ public class Controlador implements ActionListener {
 		    String dni = pnlModificarPersonas.getDNI().getText();
 
 		    Persona personaModificada = new Persona(nombre, apellido, dni);
+
 		    
 		    boolean estado = pNeg.modificar(personaModificada);
 		    String mensaje;
@@ -147,6 +169,7 @@ public class Controlador implements ActionListener {
 		        mensaje = "Error al modificar la persona";
 		    }
 		    
+
 		    // Mostrar mensaje de éxito o error
 		    pnlModificarPersonas.mostrarMensaje(mensaje);
 
@@ -170,22 +193,25 @@ public class Controlador implements ActionListener {
 		    // Cargar los datos en el JList del panel pnlModificarPersonas
 		    pnlModificarPersonas.getList().setListData(personasArray);
 		}
+
 	//EventoClickBoton agregar persona en PanelAgregarPersonas
 	private void EventoClickBoton_AgregarPesona_PanelAgregarPersonas(ActionEvent a) {
 		
+		String dni = this.pnlIngresoPersonas.getTxtDni().getText();
 		String nombre = this.pnlIngresoPersonas.getTxtNombre().getText();
 		String apellido = this.pnlIngresoPersonas.getTxtApellido().getText();
-		String dni = this.pnlIngresoPersonas.getTxtDni().getText();
 		Persona nuevaPersona = new Persona(dni, nombre, apellido);
+
 		
 		boolean estado = pNeg.insert(nuevaPersona);
 		String mensaje;
 		if(estado==true)
 		{
 			mensaje="Persona agregada con exito";
+			this.pnlIngresoPersonas.getTxtDni().setText("");
 			this.pnlIngresoPersonas.getTxtNombre().setText("");
 			this.pnlIngresoPersonas.getTxtApellido().setText("");
-			this.pnlIngresoPersonas.getTxtDni().setText("");
+			
 		}
 		else
 			mensaje="Persona no agregada, complete todos los campos";

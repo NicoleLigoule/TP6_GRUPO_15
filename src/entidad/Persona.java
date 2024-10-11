@@ -40,7 +40,7 @@ public class Persona {
 		return this.apellido;
 	}
 
-	public void setTelefono(String apellido) 
+	public void setApellido(String apellido) 
 	{
 		this.apellido = apellido;
 	}

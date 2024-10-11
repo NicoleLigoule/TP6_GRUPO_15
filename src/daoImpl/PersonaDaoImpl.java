@@ -17,7 +17,7 @@ public class PersonaDaoImpl implements PersonaDao
 	private static final String delete = "DELETE FROM personas WHERE Dni = ?";
 	private static final String readall = "SELECT * FROM personas";
 	private static final String update = "UPDATE Personas SET Nombre = ?, Apellido = ? WHERE Dni = ?";
-	
+
 	public boolean insert(Persona persona)
 	{
 		PreparedStatement statement;
@@ -92,36 +92,38 @@ public class PersonaDaoImpl implements PersonaDao
 		return personas;
 	}
 	
+	@Override
+	public boolean modificar(Persona persona) {
+	    PreparedStatement statement;
+	    Connection conexion = Conexion.getConexion().getSQLConexion();
+	    boolean isUpdateExitoso = false;
+	    try {
+	        statement = conexion.prepareStatement(update);
+	        statement.setString(1, persona.getDniPersona());
+	        statement.setString(2, persona.getNombre());
+	        statement.setString(3, persona.getApellido());
+	        if (statement.executeUpdate() > 0) {
+	            conexion.commit();
+	            isUpdateExitoso = true;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        try {
+	            conexion.rollback();
+	        } catch (SQLException e1) {
+	            e1.printStackTrace();
+	        }
+	    }
+	    return isUpdateExitoso;
+	}
+
+	
 	private Persona getPersona(ResultSet resultSet) throws SQLException
 	{
 		String Dni = resultSet.getString("Dni");
 		String nombre = resultSet.getString("Nombre");
 		String Apell = resultSet.getString("Apellido");
 		return new Persona(Dni, nombre, Apell);
+
 	}
-	
-	@Override
-    public boolean modificar(Persona persona) {
-        PreparedStatement statement;
-        Connection conexion = Conexion.getConexion().getSQLConexion();
-        boolean isUpdateExitoso = false;
-        try {
-            statement = conexion.prepareStatement(update);
-            statement.setString(1, persona.getDniPersona());
-            statement.setString(2, persona.getNombre());
-            statement.setString(3, persona.getApellido());
-            if (statement.executeUpdate() > 0) {
-                conexion.commit();
-                isUpdateExitoso = true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            try {
-                conexion.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-        }
-        return isUpdateExitoso;
-    }
 }
