@@ -68,6 +68,7 @@ public class PanelEliminarPersonas extends JPanel {
         this.lblEliminar = lblEliminar;
     }
 
+    
     // Método para mostrar un mensaje de confirmación o error
     public void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(null, mensaje);

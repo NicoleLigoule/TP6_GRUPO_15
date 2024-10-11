@@ -76,6 +76,20 @@ public class Controlador implements ActionListener {
 	//EventoClickMenu abrir PanelEliminarPersonas
 	public void EventoClickMenu_AbrirPanel_EliminarPersona(ActionEvent a)
 	{		
+		personasEnTabla = pNeg.readAll();
+		
+		 // array con los datos de las personas para el JList
+	    String[] personasArray = new String[personasEnTabla.size()];
+	    for (int i = 0; i < personasEnTabla.size(); i++) {
+	        Persona persona = personasEnTabla.get(i);
+	        
+	        //Mostramos en Jlist
+	        personasArray[i] = persona.getNombre() +" " +persona.getApellido() +" " +persona.getDniPersona();
+
+	    }
+	    // Cargar los datos en el JList del panel pnlModificarPersonas
+	    pnlEliminarPersonas.getListaPersonas().setListData(personasArray);
+	    
 		ventanaPrincipal.getContentPane().removeAll();
 		ventanaPrincipal.getContentPane().add(pnlEliminarPersonas);
 		ventanaPrincipal.getContentPane().repaint();
@@ -220,21 +234,31 @@ public class Controlador implements ActionListener {
 	
 	}
 
-	
-	
+
+	private void actualizarListaPersonasEliminar() {
+	    personasEnTabla = pNeg.readAll(); // Leer nuevamente las personas desde la base de datos
+	    
+	    // array con los datos de las personas para el JList
+	    String[] personasArray = new String[personasEnTabla.size()];
+	    for (int i = 0; i < personasEnTabla.size(); i++) {
+	        Persona persona = personasEnTabla.get(i);
+	        personasArray[i] = persona.getNombre() + " " + persona.getApellido() + " " + persona.getDniPersona();
+	    }
+	    
+	    // Cargar los datos en el JList del panel pnlEliminarPersonas
+	    pnlEliminarPersonas.getListaPersonas().setListData(personasArray);
+	}
 	
 	//EventoClickBoton borrar persona en PanelEliminarPersonas
-	public void EventoClickBoton_BorrarPesona_PanelEliminarPersonas(ActionEvent s) {
-	    // Obtener el elemento seleccionado de la lista
+	public void EventoClickBoton_BorrarPesona_PanelEliminarPersonas(ActionEvent s) {  
 	    String personaSeleccionada = this.pnlEliminarPersonas.getListaPersonas().getSelectedValue();
-	    
-	    if (personaSeleccionada != null) { // Verifica que hay una selección
-	        // Extraer el ID de la persona seleccionada
-	        String[] partes = personaSeleccionada.split(" "); // Suponiendo que el formato es "Nombre Apellido (DNI)"
-	        String dni = partes[partes.length - 1].replace("(", "").replace(")", ""); // Obtiene el DNI sin paréntesis
+	   
+	    if (personaSeleccionada != null) {
+	        String[] partes = personaSeleccionada.split(" ");
+	        String dni = partes[partes.length - 1];
 
 	        Persona persona = new Persona();
-	        persona.setDniPersona(dni); // Asegúrate de que setIdPersona acepte el tipo de dato correcto
+	        persona.setDniPersona(dni);
 	        
 	        boolean estado = pNeg.delete(persona);
 	        String mensaje;
@@ -244,13 +268,15 @@ public class Controlador implements ActionListener {
 	            mensaje = "ID inexistente";
 	        }
 
-	        // Limpiar la selección
+	        // Limpiar la seleccion
 	        this.pnlEliminarPersonas.getListaPersonas().clearSelection();
 	        this.pnlEliminarPersonas.mostrarMensaje(mensaje);
 	    } else {
 	        this.pnlEliminarPersonas.mostrarMensaje("Seleccione una persona para eliminar");
 	    }
+	    actualizarListaPersonasEliminar();
 	}
+	
 
 		
 

@@ -26,8 +26,7 @@ public class PersonaNegocioImpl implements PersonaNegocio {
 
     @Override
     public boolean delete(Persona persona_a_eliminar) {
-        // Implementación de eliminación aquí
-        return false;
+        return personaDao.delete(persona_a_eliminar);
     }
 
     @Override
