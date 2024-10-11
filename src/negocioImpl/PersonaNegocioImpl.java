@@ -19,11 +19,10 @@ public class PersonaNegocioImpl implements PersonaNegocio {
         return personaDao.insert(persona);
     }
 
-    /*@Override
+    @Override
     public boolean modificar(Persona persona_modificar) {
-        // Implementación de modificación aquí
-        return false;
-    }*/
+        return personaDao.modificar(persona_modificar);
+    }
 
     @Override
     public boolean delete(Persona persona_a_eliminar) {
